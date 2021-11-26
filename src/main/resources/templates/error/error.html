@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="fragments/head :: head"></div>
+<body>
+<div th:replace="fragments/header_guest :: header"></div>
+<!-- slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="/assets/img/hero/contact_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{error.page.title}">
+                                    </span>
+                        <h2 th:text="#{error}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!-- Start Sample Area -->
+<section class="sample-text-area">
+    <div class="container box_1170">
+        <h3 class="text-heading">Error</h3>
+        <p class="sample-text">
+        <h1>Oops. Something went wrong</h1>
+        <h2 th:text="${status} + ' ' + ${error}"></h2>
+        </p>
+    </div>
+</section>
+<!-- End Sample Area -->
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

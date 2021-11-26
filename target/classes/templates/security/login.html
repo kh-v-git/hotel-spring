@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="fragments/head :: head"></div>
+<body>
+<div th:replace="fragments/header_guest :: header"></div>
+
+<!-- slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="assets/img/hero/contact_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{login.page.title}">
+                                    </span>
+                        <h2 th:text="#{login}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!-- Login start-->
+<section class="room-area customar-padding fix">
+    <div class="container container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-xl-8">
+                <form th:action="@{/login/auth}" method="post">
+                    <div class="mt-10">
+                        <input type="email" name="userEmail" placeholder="Email"
+                               pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required
+                               class="single-input">
+                    </div>
+                    <div class="mt-10">
+                        <input type="password" name="userPassword" placeholder="Password"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'"
+                               required
+                               class="single-input">
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{sign.in}">SignIn</button>
+                    <a th:href="@{/registration}" th:text="#{register}"></a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Login end-->
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

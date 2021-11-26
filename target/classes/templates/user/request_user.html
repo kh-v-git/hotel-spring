@@ -1,0 +1,200 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<div th:replace="fragments/head :: head"></div>
+<body>
+<!-- Header Start -->
+<div th:replace="fragments/header_user :: header"></div>
+<!-- Header End -->
+
+<!-- slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="/assets/img/hero/roomspage_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{user.page.orders}">
+                                    </span>
+                        <h2 th:text="#{user}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!-- Request Room Start-->
+<div class="booking-area">
+    <div class="container">
+        <div class="row ">
+            <div class="col-12">
+                <form action="#" th:action="@{/request/user/create}" th:object="${roomRequest}" method="post">
+                    <div class="booking-wrap d-flex justify-content-between align-items-center">
+                        <!-- select in date -->
+                        <div class="single-select-box mb-30">
+                            <!-- select out date -->
+                            <div class="boking-tittle">
+                                            <span th:text="#{check.in.date}">
+                                            </span>
+                            </div>
+                            <div class="boking-datepicker">
+                                <input type="date" th:field="*{arrivalDate}" th:errorclass="is-invalid"
+                                       th:attr="min=${nowDate}" th:placeholder="${nowDate}" required/>
+                            </div>
+                        </div>
+                        <!-- Single Select Box -->
+                        <div class="single-select-box mb-30">
+                            <!-- select out date -->
+                            <div class="boking-tittle">
+                                            <span th:text="#{check.out.date}">
+                                            </span>
+                            </div>
+                            <div class="boking-datepicker">
+                                <input type="date" th:field="*{departureDate}" th:errorclass="is-invalid"
+                                       th:attr="min=${tomDate}" th:placeholder="${tomDate}" required/>
+                            </div>
+                        </div>
+                        <!-- Single Select Box -->
+                        <div class="single-select-box mb-30">
+                            <div class="boking-tittle">
+                                            <span th:text="#{adults.capacity}">
+                                            </span>
+                            </div>
+                            <div class="select-this">
+                                <div class="select-itms">
+                                    <select name="adults-capacity" id="select1"  required>
+                                        <th:block th:each="i: ${#numbers.sequence(1, session.maxAdultCapacity)}">
+                                            <option th:field="*{adultsCapacity}" th:value="${i}" th:utext="${i}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Select Box -->
+                        <div class="single-select-box mb-30">
+                            <div class="boking-tittle">
+                                            <span th:text="#{children.capacity}">
+                                            </span>
+                            </div>
+                            <div class="select-this">
+                                <div class="select-itms">
+                                    <select name="children-capacity" id="select2" required>
+                                        <th:block th:each="i: ${#numbers.sequence(1, session.maxChildCapacity)}">
+                                            <option th:field="*{childrenCapacity}" th:value="${i}" th:utext="${i}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Select Box -->
+                        <div class="single-select-box mb-30">
+                            <div class="boking-tittle" >
+                                            <span th:text="#{bed.size}">
+                                            </span>
+                            </div>
+                            <div class="select-this">
+                                <div class="select-itms">
+                                    <select th:field="*{bedSize}" id="select3" required>
+                                        <th:block th:each="roomBedSize : ${session.roomBedSizeList}">
+                                            <option th:value="${roomBedSize}" th:text="${roomBedSize}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Select Box -->
+                        <div class="single-select-box pt-45 mb-30">
+                            <button type="submit" class="btn select-btn" th:text="#{request.now}">
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Request Room End-->
+
+<!--Users Orders table-->
+<div class="whole-wrap">
+    <div class="container box_1170">
+        <div class="section-top-border">
+            <h3 class="mb-30" th:text="#{requests}">
+            </h3>
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="serial" th:text="#{room}">
+                        </div>
+                        <div class="visit" th:text="#{arrival}">
+                        </div>
+                        <div class="visit" th:text="#{departure}">
+                        </div>
+                        <div class="visit" th:text="#{status}">
+                        </div>
+                        <div class="visit" th:text="#{adults.capacity}">
+                        </div>
+                        <div class="visit" th:text="#{children.capacity}">
+                        </div>
+                        <div class="visit" th:text="#{bed.size}">
+                        </div>
+                        <div class="visit" th:text="#{action}">
+                        </div>
+                    </div>
+                    <!--
+                    <c:forEach items="${requestList}" var="userRequest">
+                        <div class="table-row">
+                            <div class="serial">
+                                <c:choose>
+                                    <c:when test="${( not empty userRequest.roomID) && (userRequest.roomID > 0)}">
+                                        <a href="show-room-user.command?room-id=${userRequest.roomID}">Details №${userRequest.roomID}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        --
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                            <div class="visit">${userRequest.arrivalDate}</div>
+                            <div class="visit">${userRequest.departureDate}</div>
+                            <div class="visit">${userRequest.status}</div>
+                            <div class="visit">${userRequest.adultsCapacity}</div>
+                            <div class="visit">${userRequest.childrenCapacity}</div>
+                            <div class="visit">${userRequest.bedSize}</div>
+                            <div class="visit">
+                                <c:choose>
+                                    <c:when test="${( not empty userRequest.roomID) && (userRequest.roomID > 0) && userRequest.status == 'assigned'}">
+                                        <ul>
+                                            <li>
+                                                <a class="genric-btn success small action-button"
+                                                   href="request-approve-user.command?room-id=${userRequest.roomID}&request-id=${userRequest.userRequestID}">Approve</a>
+                                            </li>
+                                            <li>
+                                                <a class="genric-btn danger small action-button"
+                                                   href="request-decline-user.command?room-id=${userRequest.roomID}&request-id=${userRequest.userRequestID}">Decline</a>
+                                            </li>
+                                        </ul>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a class="genric-btn danger small action-button"
+                                           href="request-room-remove-user.command?request-id=${userRequest.userRequestID}">Remove</a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </c:forEach>
+                    -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Users Order table -->
+
+
+<!-- Footer Start -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer End -->
+</body>
+</html>

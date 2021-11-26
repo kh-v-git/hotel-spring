@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<div th:replace="fragments/head :: head"></div>
+<body>
+<div th:replace="fragments/header_guest :: header"></div>
+
+<!-- slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="assets/img/hero/servicespage_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{register.page.title}">
+                                    </span>
+                        <h2 th:text="#{register}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!-- Register start-->
+<section class="room-area customar-padding fix">
+    <div class="container container-fluid p-0">
+        <div class="row justify-content-center">
+            <div class="col-xl-8">
+                <form action="#" th:action="@{/registration/register}" th:object="${userData}" method="post">
+                    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+                    </div>
+                    <!--First Name start-->
+                    <div class="mt-10" >
+                        <label th:text="#{user.first.name}"   for="user-first">User Last Name</label>
+                        <input type="text" th:field="*{firstName}" th:errorclass="is-invalid" placeholder="First Name" id="user-first"
+                               pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have max 32 letters' : '');"
+                               required
+                               class="single-input">
+                    </div>
+                    <!--First Name end-->
+
+                    <!--Last Name start-->
+                    <div class="mt-10">
+                        <label th:text="#{user.last.name}" for="user-last">User Last Name</label>
+                        <input type="text" th:field="*{lastName}" th:errorclass="is-invalid" placeholder="Last Name" id="user-last"
+                               pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have max 32 letters' : '');"
+                               required
+                               class="single-input">
+                    </div>
+                    <!--Last Name end-->
+
+                    <!--Phone start-->
+                    <div class="mt-10">
+                        <label th:text="#{user.phone}" for="user-phone">User Phone</label>
+                        <input type="text" th:field="*{phone}" th:errorclass="is-invalid" placeholder="380959956781" id="user-phone"
+                               pattern="^[0-9]{12}$"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = '380959956781'"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have 12 digits' : '');"
+                               required
+                               class="single-input">
+                    </div>
+                    <!--Phone end-->
+
+                    <!--Email start-->
+                    <div class="mt-10">
+                        <label th:text="#{user.email}" for="email">User Email</label>
+                        <input type="text" th:field="*{email}" th:errorclass="is-invalid" placeholder="Email" id="email"
+                               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must be valid email' : '');"
+                               class="single-input">
+                    </div>
+                    <!--Email end-->
+
+                    <!--Pass one start-->
+                    <div class="mt-10">
+                        <label th:text="#{enter.password}" for="password">Enter Password</label>
+                        <input type="password" th:field="*{password}" th:errorclass="is-invalid" id="password"
+                               required
+                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 8 characters, capital, number' : '');
+                        if(this.checkValidity()) form.user_repeat_password.pattern = this.value;"
+                               placeholder="Password min 8 characters, capital, number"
+                               class="single-input">
+
+                    </div>
+                    <!--Pass one end-->
+
+                    <!--Pass two start-->
+                    <div class="mt-10">
+                        <label th:text="#{reenter.password}" for="user_repeat_password">ReEnter Password</label>
+                        <input th:type="password" th:field="*{repeatPassword}" id="user_repeat_password"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'"
+                               required
+                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');
+                        if(this.checkValidity()) form.user_repeat_password.pattern = this.value;"
+                               placeholder="Repeat password"
+                               class="single-input">
+                    </div>
+                    <!--Pass two end-->
+
+                    <!--About start-->
+                    <div class="mt-10">
+                        <label th:text="#{about}" for="about"></label>
+                        <input type="text" th:field="*{about}" th:errorclass="is-invalid" placeholder="About" id="about"
+                               pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'About yourself'"
+                               class="single-input">
+                    </div>
+                    <!--About end-->
+
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{register}">Register</button>
+                    <a th:href="@{/login}" th:text="#{login}">Login</a>
+                    <p class="mt-5 mb-3 text-muted" th:text="'&copy;' + ${#dates.year(#dates.createNow())}">&copy; 2021</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Register end-->
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

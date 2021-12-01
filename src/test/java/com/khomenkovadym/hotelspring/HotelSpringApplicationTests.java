@@ -6,8 +6,7 @@ import com.khomenkovadym.hotelspring.repositories.RoomRepository;
 import com.khomenkovadym.hotelspring.repositories.RoomRequestRepository;
 import com.khomenkovadym.hotelspring.repositories.UserRepository;
 import com.khomenkovadym.hotelspring.services.RoomService;
-import com.khomenkovadym.hotelspring.utils.RoomBedSize;
-import com.khomenkovadym.hotelspring.utils.RoomRequestStatus;
+import com.khomenkovadym.hotelspring.utils.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -70,8 +69,8 @@ class HotelSpringApplicationTests {
             .password("323212313213")
             .firstName("John")
             .lastName("John")
-            .role("USER")
-            .status("ACTIVE")
+            .role(UserRoleEnum.USER)
+            .status(UserStatusEnum.ACTIVE)
             .build());
 
         assertNotNull(user.getUserId());
@@ -94,11 +93,10 @@ class HotelSpringApplicationTests {
             .room(room)
             .arrivalDate(LocalDate.now())
             .departureDate(LocalDate.now())
-            .status("OFFERED")
+            .status(RoomOrderStatus.OFFERED)
             .orderDate(LocalDateTime.now())
             .build());
 
         assertNotNull(roomOrder.getOrderId());
-
     }
 }

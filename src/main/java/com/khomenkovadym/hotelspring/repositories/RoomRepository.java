@@ -14,6 +14,8 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 
     List<Room> findAllByBedSizeIs (RoomBedSize bedSize);
 
+    Room saveAndFlush(Room room);
+
     @Query("SELECT DISTINCT r.bedSize FROM Room r")
     List<RoomBedSize> findDistinctBedSize();
 

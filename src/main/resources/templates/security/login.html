@@ -2,7 +2,9 @@
 <html lang="en">
 <div th:replace="fragments/head :: head"></div>
 <body>
-<div th:replace="fragments/header_guest :: header"></div>
+<!-- Header Start -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Header End -->
 
 <!-- slider Area Start-->
 <div class="slider-area">
@@ -28,15 +30,16 @@
     <div class="container container-fluid p-0">
         <div class="row justify-content-center">
             <div class="col-xl-8">
-                <form th:action="@{/login/auth}" method="post">
+                <p th:if="${loginError}" class="error">Wrong user or password</p>
+                <form th:action="@{/login}" method="post">
                     <div class="mt-10">
-                        <input type="email" name="userEmail" placeholder="Email"
+                        <input type="email" name="username" placeholder="Email"
                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required
                                class="single-input">
                     </div>
                     <div class="mt-10">
-                        <input type="password" name="userPassword" placeholder="Password"
+                        <input type="password" name="password" placeholder="Password"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'"
                                required
                                class="single-input">

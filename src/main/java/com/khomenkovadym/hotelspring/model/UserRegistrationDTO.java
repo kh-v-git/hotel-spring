@@ -1,5 +1,6 @@
 package com.khomenkovadym.hotelspring.model;
 
+import com.khomenkovadym.hotelspring.common.FieldMatch;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -7,13 +8,17 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserData {
+    @FieldMatch.List({
+            @FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match")
+    })
+public class UserRegistrationDTO {
+
     @NotEmpty(message = "First name can not be empty")
-    @Length(min = 1 ,max = 12)
     private String firstName;
 
     @NotEmpty(message = "Last name can not be empty")
@@ -29,12 +34,12 @@ public class UserData {
     private String email;
 
     @NotEmpty(message = "Password can not be empty")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
+    //@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
     private String password;
 
     @NotEmpty(message = "Password can not be empty")
-    @Pattern(regexp = "^(.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
-    private String repeatPassword;
+   // @Pattern(regexp = "^(.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
+    private String confirmPassword;
 
     @NotEmpty(message = "About can not be empty")
     @Length(max = 12)

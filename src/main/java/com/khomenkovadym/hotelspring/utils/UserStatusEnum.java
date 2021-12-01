@@ -4,18 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum RoomBedSize {
-    KING,
-    QUEEN,
-    TWIN,
-    DOUBLE,
-    COT;
+public enum UserStatusEnum {
+    ACTIVE, DEACTIVATED;
 
-    public static List<String> RoomBedSizeList () {
-        return  Arrays.stream(RoomBedSize.values())
-                .map(RoomBedSize::name)
+    public static List<String> getUserStatusList () {
+        return  Arrays.stream(UserStatusEnum.values())
+                .map(UserStatusEnum::name)
                 .map(String::toLowerCase)
                 .collect(Collectors.toList());
     }
-
 }

@@ -28,9 +28,11 @@ public class RoomRequest {
     private User user;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private RoomRequestStatus status;
 
     @Column(name = "bed_size")
+    @Enumerated(EnumType.STRING)
     private RoomBedSize bedSize;
 
     @Column(name = "adult_capacity")

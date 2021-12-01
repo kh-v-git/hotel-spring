@@ -1,6 +1,7 @@
 package com.khomenkovadym.hotelspring.controllers.security;
 
-import com.khomenkovadym.hotelspring.model.UserData;
+import com.khomenkovadym.hotelspring.entities.User;
+import com.khomenkovadym.hotelspring.model.UserRegistrationDTO;
 import com.khomenkovadym.hotelspring.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(value = {"/registration"})
@@ -25,29 +28,35 @@ public class RegistrationController {
         this.userService = userService;
     }
 
+    @ModelAttribute("user")
+    public UserRegistrationDTO userRegistrationDto() {
+        return new UserRegistrationDTO();
+    }
+
     @GetMapping
-    public String registration(Model model) {
-        model.addAttribute("userData", new UserData());
+    public String showRegistrationForm(Model model) {
         return "security/registration";
     }
 
-    @PostMapping("/register")
-    public String userRegistration(@Valid UserData userData, BindingResult bindingResult, Model model){
-        if(bindingResult.hasErrors()){
-            model.addAttribute("registrationForm", userData);
+    @PostMapping
+    public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationDTO registrationDTO,
+                                      BindingResult result) {
+
+        Optional<User> maybeUser = userService.findByEmail(registrationDTO.getEmail());
+
+        if (maybeUser.isPresent()) {
+            result.rejectValue("email", null, "User exist. Login!");
+
+        }
+
+        if (result.hasErrors()) {
             return "security/registration";
         }
-        /*
-        try {
-            userService.register(userData);
-        }catch (UserAlreadyExistException e){
-            bindingResult.rejectValue("email", "userData.email","An account already exists for this email.");
-            model.addAttribute("registrationForm", userData);
-            return "redirect:/login";
-        }
-        return "redirect:/index";
-         */
-        return "redirect:/index";
+
+        userService.saveAndFlush(registrationDTO);
+        return "redirect:/login";
     }
+
+
 
 }

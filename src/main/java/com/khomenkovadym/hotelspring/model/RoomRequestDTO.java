@@ -7,7 +7,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
@@ -15,26 +19,29 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class RoomRequestDTO {
+    @NotNull(message = "ID can not be empty")
     private Integer requestId;
 
-    @NotEmpty(message = "Status can not be empty")
+    private Integer roomID;
+
+    @NotNull
     private Integer userId;
 
-    @NotEmpty(message = "Status can not be empty")
+    @NotNull
     private RoomRequestStatus status;
 
-    @NotEmpty(message = "Bed size can not be empty")
+    @NotNull
     private RoomBedSize bedSize;
 
-    @NotEmpty(message = "Capacity can not be empty")
+    @NotNull(message = "Capacity can not be empty")
     private Integer adultsCapacity;
 
-    @NotEmpty(message = "Capacity can not be empty")
+    @NotNull(message = "Capacity can not be empty")
     private Integer childrenCapacity;
 
-    @NotEmpty(message = "Date can not be empty")
+    @NotNull(message = "Date can not be empty")
     private LocalDate arrivalDate;
 
-    @NotEmpty(message = "Date can not be empty")
+    @NotNull(message = "Date can not be empty")
     private LocalDate departureDate;
 }

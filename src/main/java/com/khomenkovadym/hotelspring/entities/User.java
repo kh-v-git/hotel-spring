@@ -1,5 +1,7 @@
 package com.khomenkovadym.hotelspring.entities;
 
+import com.khomenkovadym.hotelspring.utils.UserRoleEnum;
+import com.khomenkovadym.hotelspring.utils.UserStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,10 +37,12 @@ public class User {
     private String phone;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role;
 
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private UserStatusEnum status;
 
     @Column(name = "about")
     private String about;

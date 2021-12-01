@@ -1,22 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <div th:replace="fragments/head :: head"></div>
 <body>
 <!-- Header Start -->
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/header_manager :: header"></div>
 <!-- Header End -->
 
 <!-- slider Area Start-->
 <div class="slider-area">
     <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
-         data-background="/assets/img/hero/contact_hero.jpg">
+         data-background="/assets/img/hero/roomspage_hero.jpg">
         <div class="container">
             <div class="row ">
                 <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
                     <div class="hero-caption">
-                                    <span th:text="#{error.page.title}">
+                                    <span th:text="#{user.page.orders}">
                                     </span>
-                        <h2 th:text="#{error}"></h2>
+                        <h2 th:text="#{manager}"></h2>
                     </div>
                 </div>
             </div>
@@ -25,17 +25,8 @@
 </div>
 <!-- slider Area End-->
 
-<!-- Start Sample Area -->
-<section class="sample-text-area">
-    <div class="container box_1170">
-        <h3 class="text-heading">Error</h3>
-        <p class="sample-text">
-            <b>Error 405</b>
-        </p>
-    </div>
-</section>
-<!-- End Sample Area -->
-
+<!-- Footer Start -->
 <div th:replace="fragments/footer :: footer"></div>
+<!-- Footer End -->
 </body>
 </html>

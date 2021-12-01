@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <div th:replace="fragments/head :: head"></div>
 <body>
+
 <!-- Header Start -->
-<div th:replace="fragments/header_guest :: header"></div>
+<div th:replace="fragments/header :: header"></div>
 <!-- Header End -->
 
 <!-- slider Area Start-->
@@ -29,7 +30,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-12">
-                <form th:action="@{/login}" method="post">
+                <form th:action="@{/login}" method="get">
                     <div class="booking-wrap d-flex justify-content-between align-items-center">
 
                         <!-- select in date -->
@@ -142,7 +143,7 @@
                         <p th:text="#{children.capacity} + ': ' + ${room.childCapacity}">
                         </p>
                         <div class="caption-details">
-                            <a th:href="@{/rooms/{bedSize} (bedSize = ${room.bedSize})}" class="btn more-btn1">Back to Rooms<i class="ti-angle-right"></i> </a>
+                            <a th:href="@{/room/category/{bedSize} (bedSize = ${room.bedSize})}" class="btn more-btn1">Back to Rooms<i class="ti-angle-right"></i> </a>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 package com.khomenkovadym.hotelspring.entities;
 
+import com.khomenkovadym.hotelspring.utils.RoomOrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +36,8 @@ public class RoomOrder {
     private RoomRequest roomRequest;
 
     @Column(name = "order_status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private RoomOrderStatus status;
 
     @Column(name = "order_date")
     private LocalDateTime orderDate;

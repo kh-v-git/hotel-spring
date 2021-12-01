@@ -14,7 +14,7 @@
             <div class="row ">
                 <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
                     <div class="hero-caption">
-                                    <span th:text="#{user.page.orders}">
+                                    <span th:text="#{user.page.booking}">
                                     </span>
                         <h2 th:text="#{user}"></h2>
                     </div>
@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-12">
-                <form action="#" th:action="@{/request/user/create}"  method="post">
+                <form action="#" th:action="@{/room/user/find}" method="post">
                     <div class="booking-wrap d-flex justify-content-between align-items-center">
                         <!-- select in date -->
                         <div class="single-select-box mb-30">
@@ -49,7 +49,7 @@
                         <div class="single-select-box mb-30">
                             <!-- select out date -->
                             <div class="boking-tittle">
-                                            <span th:text="#{check.out.date}"></span>
+                                <span th:text="#{check.out.date}"></span>
                             </div>
                             <div class="boking-datepicker">
                                 <input type="date" th:name="departureDate"
@@ -67,7 +67,7 @@
                                 <div class="select-itms">
                                     <select th:name="adultsCapacity" id="select1" required>
                                         <th:block th:each="i: ${#numbers.sequence(1, session.maxAdultCapacity)}">
-                                            <option  th:value="${i}"
+                                            <option th:value="${i}"
                                                     th:utext="${i}"></option>
                                         </th:block>
                                     </select>
@@ -84,7 +84,7 @@
                                 <div class="select-itms">
                                     <select th:name="childrenCapacity" id="select2" required>
                                         <th:block th:each="i: ${#numbers.sequence(1, session.maxChildCapacity)}">
-                                            <option  th:value="${i}"
+                                            <option th:value="${i}"
                                                     th:utext="${i}"></option>
                                         </th:block>
                                     </select>
@@ -101,7 +101,7 @@
                                 <div class="select-itms">
                                     <select id="select3" th:name="bedSize" required>
                                         <th:block th:each="roomBedSize : ${session.roomBedSizeList}">
-                                            <option  th:value="${roomBedSize}" th:text="${roomBedSize}"></option>
+                                            <option th:value="${roomBedSize}" th:text="${roomBedSize}"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -118,13 +118,13 @@
         </div>
     </div>
 </div>
-<!-- Request Room End-->
+<!-- Booking Room End-->
 
-<!--Users Orders table-->
+<!--Users Booking table-->
 <div class="whole-wrap">
     <div class="container box_1170">
         <div class="section-top-border">
-            <h3 class="mb-30" th:text="#{requests}">
+            <h3 class="mb-30" th:text="#{booking}">
             </h3>
             <div class="progress-table-wrap">
                 <div class="progress-table">
@@ -137,54 +137,67 @@
                         </div>
                         <div class="visit" th:text="#{status}">
                         </div>
-                        <div class="visit" th:text="#{adults.capacity}">
+                        <div class="visit" th:text="#{order.date}">
                         </div>
-                        <div class="visit" th:text="#{children.capacity}">
-                        </div>
-                        <div class="visit" th:text="#{bed.size}">
+                        <div class="visit" th:text="#{price}">
                         </div>
                         <div class="visit" th:text="#{action}">
                         </div>
                     </div>
-                    <th:block th:each="requestDTO : ${requestDTOList}">
+                    <th:block th:each="orderDTO : ${orderDTOList}">
                         <div class="table-row">
                             <div class="serial">
-                                <div th:with="resultRoom = ${requestDTO.roomID != null && requestDTO.roomID > 0}">
-                                    <div th:if="${resultRoom}">
-                                        <a th:href="@{/room/view/{id} (id=${requestDTO.roomID})}" th:text="#{details}"></a>
+                                <div th:with="result = ${orderDTO.roomId != null && orderDTO.roomId > 0}">
+                                    <div th:if="${result}">
+                                        <a th:href="@{/room/view/{id} (id=${orderDTO.roomId})}" th:text="#{details}"></a>
                                     </div>
-                                    <div th:unless="${resultRoom}">
+                                    <div th:unless="${result}">
                                         <div th:text="'--'">--</div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="visit" th:text="${requestDTO.arrivalDate}"></div>
-                            <div class="visit" th:text="${requestDTO.departureDate}"></div>
-                            <div class="visit" th:text="${requestDTO.status}"></div>
-                            <div class="visit" th:text="${requestDTO.adultsCapacity}"></div>
-                            <div class="visit" th:text="${requestDTO.childrenCapacity}"></div>
-                            <div class="visit" th:text="${requestDTO.bedSize}"></div>
+                            <div class="visit" th:text="${orderDTO.arrivalDate}"></div>
+                            <div class="visit" th:text="${orderDTO.departureDate}"></div>
+                            <div class="visit" th:text="${orderDTO.status}"></div>
+                            <div class="visit" th:text="${orderDTO.orderDate}"></div>
+                            <div class="visit" th:text="${orderDTO.price}"></div>
+
                             <div class="visit">
-                                <div th:with=" resultAction = ${requestDTO.roomID != null && requestDTO.roomID > 0 && requestDTO.status.name() == 'ASSIGNED'}">
-                                    <div th:if="${resultAction}">
+                                <div th:switch="${orderDTO.status.name()}">
+                                    <div th:case="'PENDING_PAYMENT'">
                                         <ul>
                                             <li>
-                                                <a class="genric-btn success small action-button"
-                                                   th:href="@{/request/user/approve(roomId=${requestDTO.roomID}, requestId=${requestDTO.requestId })}" th:text="#{approve}"></a>
+                                                <a class="genric-btn success small action-button" th:text="#{pay}"
+                                                   th:href="@{/#}"
+                                                ></a>
                                             </li>
                                             <li>
-                                                <a class="genric-btn danger small action-button"
-                                                   th:href="@{/request/user/decline(roomId=${requestDTO.roomID}, requestId=${requestDTO.requestId })}" th:text="#{decline}"></a>
-
+                                                <a class="genric-btn danger small action-button" th:text="#{decline}"
+                                                   th:href="@{/#}"
+                                                ></a>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div th:unless="${resultAction}">
+                                    <div th:case="'OFFERED'">
+                                        <ul>
+                                            <li>
+                                                <a class="genric-btn success small action-button" th:text="#{accept}"
+                                                   th:href="@{/#}"
+                                                ></a>
+                                            </li>
+                                            <li>
+                                                <a class="genric-btn danger small action-button" th:text="#{decline}"
+                                                   th:href="@{/#}"
+                                                ></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div th:case="*">
                                         <a class="genric-btn danger small action-button"
-                                           th:href="@{/request/user/remove(requestId=${requestDTO.requestId })}" th:text="#{remove}"></a>
+                                           th:href="@{/order/user/remove(orderId=${orderDTO.orderId })}"
+                                           th:text="#{remove}"></a>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </th:block>

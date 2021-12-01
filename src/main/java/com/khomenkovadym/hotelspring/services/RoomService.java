@@ -1,10 +1,9 @@
 package com.khomenkovadym.hotelspring.services;
 
-import com.khomenkovadym.hotelspring.model.RoomDTO;
 import com.khomenkovadym.hotelspring.repositories.RoomRepository;
 import com.khomenkovadym.hotelspring.entities.Room;
 import com.khomenkovadym.hotelspring.utils.RoomBedSize;
-import org.springframework.data.domain.Example;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,11 +15,11 @@ import java.util.List;
 public class RoomService {
     private RoomRepository roomRepository;
 
+    @Autowired
     public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
-    @Transactional
     public Page<Room> getRooms(Pageable pageable, Integer number) {
         return roomRepository.findAll(pageable);
     }
@@ -37,7 +36,9 @@ public class RoomService {
         return roomRepository.findDistinctBedSize();
     }
 
-    public Room getRoomByRoomID(int roomId) {return roomRepository.getRoomByRoomId(roomId);}
+    public Room getRoomByRoomID(int roomId) {
+        return roomRepository.getRoomByRoomId(roomId);
+    }
 
     public Integer findMaxChildCapacity() {
         return roomRepository.findMaxChildCapacity();
@@ -46,6 +47,5 @@ public class RoomService {
     public Integer findMaxAdultCapacity() {
         return roomRepository.findMaxAdultCapacity();
     }
-
 
 }

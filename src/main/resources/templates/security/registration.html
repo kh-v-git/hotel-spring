@@ -9,7 +9,7 @@
 <!-- slider Area Start-->
 <div class="slider-area">
     <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
-         data-background="assets/img/hero/servicespage_hero.jpg">
+         data-background="/assets/img/hero/servicespage_hero.jpg">
         <div class="container">
             <div class="row ">
                 <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
@@ -32,57 +32,70 @@
             <div class="col-xl-8">
                 <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
                     <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
-                       th:each="error : ${#fields.errors('global')}" th:text="${error}">
-                        Validation error</p>
+                       th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
+
                     <!--First Name start-->
                     <div class="mt-10" th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
                         <label th:text="#{user.first.name}" for="user-first">User Last Name</label>
                         <input type="text" th:field="*{firstName}" placeholder="First Name" id="user-first"
 
 
-                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"
-                        onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have max 32 letters' : '');"
-                        required
-                        class="single-input">
-<!--                        pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"-->
-                 <p class="error-message"
-                    th:each="error: ${#fields.errors('firstName')}"
-                    th:text="${error}">Validation error</p>
-             </div>
-             <!--First Name end-->
+                               onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"
+                               onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have max 32 letters' : '');"
+                               required
+                               class="single-input">
+                        <!--                        pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"-->
+                        <p class="error-message"
+                           th:each="error: ${#fields.errors('firstName')}"
+                           th:text="${error}">Validation error</p>
+                    </div>
+                    <!--First Name end-->
 
                     <!--Last Name start-->
-                    <div class="mt-10">
+                    <div class="mt-10" th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
                         <label th:text="#{user.last.name}" for="user-last">User Last Name</label>
                         <input type="text" th:field="*{lastName}" placeholder="Last Name" id="user-last"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'"
                                onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have max 32 letters' : '');"
                                required
                                class="single-input">
-<!--                               pattern="^[A-Za-z\u0400\u04ff]{1,32}$"-->
+                        <!--                               pattern="^[A-Za-z\u0400\u04ff]{1,32}$"-->
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('lastName')}"
+                           th:text="${error}">Validation error</p>
                     </div>
                     <!--Last Name end-->
 
                     <!--Phone start-->
-                    <div class="mt-10">
+                    <div class="mt-10" th:classappend="${#fields.hasErrors('phone')}? 'has-error':''">
                         <label th:text="#{user.phone}" for="user-phone">User Phone</label>
                         <input type="text" th:field="*{phone}" placeholder="380959956781" id="user-phone"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = '380959956781'"
                                onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have 12 digits' : '');"
                                required
                                class="single-input">
-<!--                               pattern="^[0-9]{12}$"-->
+                        <!--                               pattern="^[0-9]{12}$"-->
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('phone')}"
+                           th:text="${error}">
+                            Validation error
+                        </p>
                     </div>
                     <!--Phone end-->
 
                     <!--Email start-->
-                    <div class="mt-10">
+                    <div class="mt-10" th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
                         <label th:text="#{user.email}" for="email">User Email</label>
                         <input type="text" th:field="*{email}" placeholder="Email" id="email"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required
                                onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must be valid email' : '');"
                                class="single-input">
-<!--                               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"-->
+                        <!--                               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"-->
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('email')}"
+                           th:text="${error}">
+                            Validation error
+                        </p>
                     </div>
                     <!--Email end-->
 
@@ -95,12 +108,15 @@
                         if(this.checkValidity()) form.user_repeat_password.pattern = this.value;"
                                placeholder="Password min 8 characters, capital, number"
                                class="single-input">
-<!--                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"-->
+                        <!--                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"-->
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('password')}"
+                           th:text="${error}">Validation error</p>
                     </div>
                     <!--Pass one end-->
 
                     <!--Pass two start-->
-                    <div class="mt-10">
+                    <div class="mt-10" th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
                         <label th:text="#{reenter.password}" for="user_repeat_password">ReEnter Password</label>
                         <input th:type="password" th:field="*{confirmPassword}" id="user_repeat_password"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'"
@@ -109,17 +125,23 @@
                         if(this.checkValidity()) form.user_repeat_password.pattern = this.value;"
                                placeholder="Repeat password"
                                class="single-input">
-<!--                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"-->
+                        <!--                               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"-->
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('confirmPassword')}"
+                           th:text="${error}">Validation error</p>
                     </div>
                     <!--Pass two end-->
 
                     <!--About start-->
-                    <div class="mt-10">
+                    <div class="mt-10" th:classappend="${#fields.hasErrors('about')}? 'has-error':''">
                         <label th:text="#{about}" for="about"></label>
                         <input type="text" th:field="*{about}" placeholder="About" id="about"
                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'About yourself'"
                                class="single-input">
-<!--                               pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"-->
+                        <!--                               pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"-->
+                        <p class="error-message"
+                           th:each="error : ${#fields.errors('about')}"
+                           th:text="${error}">Validation error</p>
                     </div>
                     <!--About end-->
 

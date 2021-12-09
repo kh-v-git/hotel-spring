@@ -12,7 +12,6 @@ public enum UserRoleEnum {
     public static List<String> getUserRoleList () {
         return  Arrays.stream(UserRoleEnum.values())
                 .map(UserRoleEnum::name)
-                .map(String::toLowerCase)
                 .collect(Collectors.toList());
     }
 }

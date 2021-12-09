@@ -6,7 +6,6 @@ import com.khomenkovadym.hotelspring.services.RoomService;
 import com.khomenkovadym.hotelspring.utils.RoomBedSize;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,16 +22,15 @@ import java.util.Map;
 @Slf4j
 public class IndexController {
 
-    private RoomService roomService;
+    private final RoomService roomService;
 
     @Autowired
-    public void setRoomService(RoomService roomService) {
+    public IndexController(RoomService roomService) {
         this.roomService = roomService;
     }
 
     @GetMapping
-    public String index(Model model,
-                        Pageable page, HttpServletRequest request) {
+    public String index(Model model, HttpServletRequest request) {
         List<Room> roomList = roomService.getRoomsByRoomIdNotNull();
         Map<String, RoomView> roomViews = new HashMap<>();
 

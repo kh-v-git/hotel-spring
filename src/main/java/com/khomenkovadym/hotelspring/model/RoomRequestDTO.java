@@ -28,9 +28,11 @@ public class RoomRequestDTO {
     private Integer userId;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private RoomRequestStatus status;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private RoomBedSize bedSize;
 
     @NotNull(message = "Capacity can not be empty")

@@ -3,7 +3,7 @@
 <div th:replace="fragments/head :: head"></div>
 <body>
 <!-- Header Start -->
-<div th:replace="fragments/header_manager :: header"></div>
+<div th:replace="fragments/header :: header"></div>
 <!-- Header End -->
 
 <!-- slider Area Start-->
@@ -24,6 +24,86 @@
     </div>
 </div>
 <!-- slider Area End-->
+
+<!--Users Orders table-->
+<div class="whole-wrap">
+    <div class="container box_1170">
+        <div class="section-top-border">
+            <h3 class="mb-30" th:text="#{requests}">
+            </h3>
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="serial" th:text="#{room}">
+                        </div>
+                        <div class="visit" th:text="#{arrival}">
+                        </div>
+                        <div class="visit" th:text="#{departure}">
+                        </div>
+                        <div class="visit" th:text="#{status}">
+                        </div>
+                        <div class="visit" th:text="#{adults.capacity}">
+                        </div>
+                        <div class="visit" th:text="#{children.capacity}">
+                        </div>
+                        <div class="visit" th:text="#{bed.size}">
+                        </div>
+                        <div class="visit" th:text="#{action}">
+                        </div>
+                    </div>
+                    <th:block th:each="requestDTO : ${requestDTOList}">
+                        <div class="table-row">
+                            <div class="serial">
+                                <div th:with="resultRoom = ${requestDTO.roomID != null && requestDTO.roomID > 0}">
+                                    <div th:if="${resultRoom}">
+                                        <a th:href="@{/room/view/{id} (id=${requestDTO.roomID})}" th:text="#{details}"></a>
+                                    </div>
+                                    <div th:unless="${resultRoom}">
+                                        <div th:text="'--'">--</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="visit" th:text="${requestDTO.arrivalDate}"></div>
+                            <div class="visit" th:text="${requestDTO.departureDate}"></div>
+                            <div class="visit" th:text="${requestDTO.status}"></div>
+                            <div class="visit" th:text="${requestDTO.adultsCapacity}"></div>
+                            <div class="visit" th:text="${requestDTO.childrenCapacity}"></div>
+                            <div class="visit" th:text="${requestDTO.bedSize}"></div>
+                            <div class="visit">
+                                <div th:with=" resultAction = ${requestDTO.status.name() == 'REQUESTED'}">
+                                    <div th:if="${resultAction}">
+                                        <ul>
+                                            <li>
+                                                <form th:method="GET" action="#" th:action="@{/room/manager/find-request-room}">
+                                                    <input type="hidden" th:value="${requestDTO.requestId}" th:attr="name='requestId'">
+                                                    <button class="genric-btn success small action-button" type="submit" th:text="#{find}"></button>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form th:method="POST" action="#" th:action="@{/request/manager/decline(requestId=${requestDTO.requestId})}">
+                                                    <input type="hidden" th:value="${requestDTO.requestId}" th:attr="name='requestId'">
+                                                    <button class="genric-btn danger small action-button" type="submit" th:text="#{decline}"></button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div th:unless="${resultAction}">
+                                        <form th:method="POST" action="#" th:action="@{/request/manager/remove(requestId=${requestDTO.requestId})}">
+                                            <input type="hidden" th:value="${requestDTO.requestId}" th:attr="name='requestId'">
+                                            <button class="genric-btn danger small action-button" type="submit" th:text="#{remove}"></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Users Order table -->
 
 <!-- Footer Start -->
 <div th:replace="fragments/footer :: footer"></div>

@@ -1,9 +1,9 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
-<div th:replace="fragments/head :: head"></div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:insert="fragments/head :: head"></div>
 <body>
 <!-- Header Start -->
-<div th:replace="fragments/header_user :: header"></div>
+<div th:replace="fragments/header :: header"></div>
 <!-- Header End -->
 
 <!-- slider Area Start-->
@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row ">
             <div class="col-12">
-                <form action="#" th:action="@{/request/user/create}" th:object="${roomRequest}" method="post">
+                <form action="#" th:action="@{/request/user/create}"  method="post">
                     <div class="booking-wrap d-flex justify-content-between align-items-center">
                         <!-- select in date -->
                         <div class="single-select-box mb-30">
@@ -40,7 +40,8 @@
                                             </span>
                             </div>
                             <div class="boking-datepicker">
-                                <input type="date" th:field="*{arrivalDate}" th:errorclass="is-invalid"
+
+                                <input type="date" th:name="arrivalDate"
                                        th:attr="min=${nowDate}" th:placeholder="${nowDate}" required/>
                             </div>
                         </div>
@@ -48,12 +49,12 @@
                         <div class="single-select-box mb-30">
                             <!-- select out date -->
                             <div class="boking-tittle">
-                                            <span th:text="#{check.out.date}">
-                                            </span>
+                                            <span th:text="#{check.out.date}"></span>
                             </div>
                             <div class="boking-datepicker">
-                                <input type="date" th:field="*{departureDate}" th:errorclass="is-invalid"
+                                <input type="date" th:name="departureDate"
                                        th:attr="min=${tomDate}" th:placeholder="${tomDate}" required/>
+
                             </div>
                         </div>
                         <!-- Single Select Box -->
@@ -64,9 +65,10 @@
                             </div>
                             <div class="select-this">
                                 <div class="select-itms">
-                                    <select name="adults-capacity" id="select1"  required>
+                                    <select th:name="adultsCapacity" id="select1" required>
                                         <th:block th:each="i: ${#numbers.sequence(1, session.maxAdultCapacity)}">
-                                            <option th:field="*{adultsCapacity}" th:value="${i}" th:utext="${i}"></option>
+                                            <option  th:value="${i}"
+                                                    th:utext="${i}"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -80,9 +82,10 @@
                             </div>
                             <div class="select-this">
                                 <div class="select-itms">
-                                    <select name="children-capacity" id="select2" required>
+                                    <select th:name="childrenCapacity" id="select2" required>
                                         <th:block th:each="i: ${#numbers.sequence(1, session.maxChildCapacity)}">
-                                            <option th:field="*{childrenCapacity}" th:value="${i}" th:utext="${i}"></option>
+                                            <option  th:value="${i}"
+                                                    th:utext="${i}"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -90,15 +93,15 @@
                         </div>
                         <!-- Single Select Box -->
                         <div class="single-select-box mb-30">
-                            <div class="boking-tittle" >
+                            <div class="boking-tittle">
                                             <span th:text="#{bed.size}">
                                             </span>
                             </div>
                             <div class="select-this">
                                 <div class="select-itms">
-                                    <select th:field="*{bedSize}" id="select3" required>
+                                    <select id="select3" th:name="bedSize" required>
                                         <th:block th:each="roomBedSize : ${session.roomBedSizeList}">
-                                            <option th:value="${roomBedSize}" th:text="${roomBedSize}"></option>
+                                            <option  th:value="${roomBedSize}" th:text="${roomBedSize}"></option>
                                         </th:block>
                                     </select>
                                 </div>
@@ -143,48 +146,48 @@
                         <div class="visit" th:text="#{action}">
                         </div>
                     </div>
-                    <!--
-                    <c:forEach items="${requestList}" var="userRequest">
+                    <th:block th:each="requestDTO : ${requestDTOList}">
                         <div class="table-row">
                             <div class="serial">
-                                <c:choose>
-                                    <c:when test="${( not empty userRequest.roomID) && (userRequest.roomID > 0)}">
-                                        <a href="show-room-user.command?room-id=${userRequest.roomID}">Details №${userRequest.roomID}</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        --
-                                    </c:otherwise>
-                                </c:choose>
+                                <div th:with="resultRoom = ${requestDTO.roomID != null && requestDTO.roomID > 0}">
+                                    <div th:if="${resultRoom}">
+                                        <a th:href="@{/room/view/{id} (id=${requestDTO.roomID})}" th:text="#{details}"></a>
+                                    </div>
+                                    <div th:unless="${resultRoom}">
+                                        <div th:text="'--'">--</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="visit">${userRequest.arrivalDate}</div>
-                            <div class="visit">${userRequest.departureDate}</div>
-                            <div class="visit">${userRequest.status}</div>
-                            <div class="visit">${userRequest.adultsCapacity}</div>
-                            <div class="visit">${userRequest.childrenCapacity}</div>
-                            <div class="visit">${userRequest.bedSize}</div>
+                            <div class="visit" th:text="${requestDTO.arrivalDate}"></div>
+                            <div class="visit" th:text="${requestDTO.departureDate}"></div>
+                            <div class="visit" th:text="${requestDTO.status}"></div>
+                            <div class="visit" th:text="${requestDTO.adultsCapacity}"></div>
+                            <div class="visit" th:text="${requestDTO.childrenCapacity}"></div>
+                            <div class="visit" th:text="${requestDTO.bedSize}"></div>
                             <div class="visit">
-                                <c:choose>
-                                    <c:when test="${( not empty userRequest.roomID) && (userRequest.roomID > 0) && userRequest.status == 'assigned'}">
+                                <div th:with=" resultAction = ${requestDTO.roomID != null && requestDTO.roomID > 0 && requestDTO.status.name() == 'ASSIGNED'}">
+                                    <div th:if="${resultAction}">
                                         <ul>
                                             <li>
                                                 <a class="genric-btn success small action-button"
-                                                   href="request-approve-user.command?room-id=${userRequest.roomID}&request-id=${userRequest.userRequestID}">Approve</a>
+                                                   th:href="@{/request/user/approve(roomId=${requestDTO.roomID}, requestId=${requestDTO.requestId })}" th:text="#{approve}"></a>
                                             </li>
                                             <li>
                                                 <a class="genric-btn danger small action-button"
-                                                   href="request-decline-user.command?room-id=${userRequest.roomID}&request-id=${userRequest.userRequestID}">Decline</a>
+                                                   th:href="@{/request/user/decline(roomId=${requestDTO.roomID}, requestId=${requestDTO.requestId })}" th:text="#{decline}"></a>
+
                                             </li>
                                         </ul>
-                                    </c:when>
-                                    <c:otherwise>
+                                    </div>
+                                    <div th:unless="${resultAction}">
                                         <a class="genric-btn danger small action-button"
-                                           href="request-room-remove-user.command?request-id=${userRequest.userRequestID}">Remove</a>
-                                    </c:otherwise>
-                                </c:choose>
+                                           th:href="@{/request/user/remove(requestId=${requestDTO.requestId })}" th:text="#{remove}"></a>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-                    </c:forEach>
-                    -->
+                    </th:block>
                 </div>
             </div>
         </div>
@@ -192,9 +195,8 @@
 </div>
 <!-- Users Order table -->
 
-
 <!-- Footer Start -->
-<div th:replace="fragments/footer :: footer"></div>
+<div th:insert="fragments/footer :: footer"></div>
 <!-- Footer End -->
 </body>
 </html>

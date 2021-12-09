@@ -1,0 +1,94 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<div th:replace="fragments/head :: head"></div>
+<body>
+<!-- Header Start -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Header End -->
+
+<!-- slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="/assets/img/hero/roomspage_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{user.page.booking}">
+                                    </span>
+                        <h2 th:text="#{manager}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!--Users Order table-->
+<div class="whole-wrap">
+    <div class="container box_1170">
+        <div class="section-top-border">
+            <h3 class="mb-30" th:text="#{booking}">
+            </h3>
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="serial" th:text="#{room}">
+                        </div>
+                        <div class="visit" th:text="#{arrival}">
+                        </div>
+                        <div class="visit" th:text="#{departure}">
+                        </div>
+                        <div class="visit" th:text="#{status}">
+                        </div>
+                        <div class="visit" th:text="#{order.date}">
+                        </div>
+                        <div class="visit" th:text="#{price}">
+                        </div>
+                        <div class="visit" th:text="#{action}">
+                        </div>
+                    </div>
+                    <th:block th:each="orderDTO : ${orderDTOList}">
+                        <div class="table-row">
+                            <div class="serial">
+                                <div th:with="result = ${orderDTO.roomId != null && orderDTO.roomId > 0}">
+                                    <div th:if="${result}">
+                                        <a th:href="@{/room/view/{id} (id=${orderDTO.roomId})}" th:text="#{details}"></a>
+                                    </div>
+                                    <div th:unless="${result}">
+                                        <div th:text="'--'">--</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="visit" th:text="${orderDTO.arrivalDate}"></div>
+                            <div class="visit" th:text="${orderDTO.departureDate}"></div>
+                            <div class="visit" th:text="${orderDTO.status}"></div>
+                            <div class="visit" th:text="${orderDTO.orderDate}"></div>
+                            <div class="visit" th:text="${orderDTO.price}"></div>
+                            <div class="visit">
+                                <div th:with="result = ${orderDTO.status != 'EXPIRED'}">
+                                    <div th:if="${result}">
+                                        <form th:method="POST" action="#" th:action="@{/order/manager/remove(orderId=${orderDTO.orderId})}">
+                                            <button class="genric-btn danger small action-button" type="submit" th:text="#{delete}"></button>
+                                        </form>
+                                    </div>
+                                    <div th:unless="${result}">
+                                        <div th:text="'--'">--</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Users Order table -->
+
+<!-- Footer Start -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer End -->
+</body>
+</html>

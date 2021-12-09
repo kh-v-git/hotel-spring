@@ -1,22 +1,26 @@
 package com.khomenkovadym.hotelspring.model;
 
-import com.khomenkovadym.hotelspring.common.FieldMatch;
-import lombok.*;
+import com.khomenkovadym.hotelspring.utils.UserRoleEnum;
+import com.khomenkovadym.hotelspring.utils.UserStatusEnum;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-    @FieldMatch.List({
-            @FieldMatch(first = "password", second = "confirmPassword", message = "The password fields must match")
-    })
-public class UserRegistrationDTO {
+public class UserDTO {
+
+    private Integer userId;
 
     @NotEmpty(message = "First name can not be empty")
     @Pattern(regexp = "^[A-Za-z\u0400-\u04ff]{1,32}$", message = "Must contain max 32 letters only")
@@ -34,13 +38,11 @@ public class UserRegistrationDTO {
     @Email(message = "Please provide a valid email id")
     private String email;
 
-    @NotEmpty(message = "Password can not be empty")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "8 symbols, 1 capital, 1 digit")
-    private String password;
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role;
 
-    @NotEmpty(message = "Password can not be empty")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "8 symbols, 1 capital, 1 digit")
-    private String confirmPassword;
+    @Enumerated(EnumType.STRING)
+    private UserStatusEnum status;
 
     @NotEmpty(message = "About can not be empty")
     @Length(max = 12, message = "About can not be empty. Max 12 symbols")

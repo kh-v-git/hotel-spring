@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum RoomOrderStatus {
+    FREE,
     OFFERED,
     PENDING_PAYMENT,
     BOOKED,

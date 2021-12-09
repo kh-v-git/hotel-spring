@@ -9,7 +9,7 @@
 <!-- slider Area Start-->
 <div class="slider-area">
     <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
-         data-background="/assets/img/hero/servicespage_hero.jpg">
+         data-background="/assets/img/hero/roomspage_hero.jpg">
         <div class="container">
             <div class="row ">
                 <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
@@ -139,70 +139,51 @@
 </div>
 <!-- Booking Room End-->
 
-<!--Users Order table-->
+
+<!--Search Room table-->
 <div class="whole-wrap">
     <div class="container box_1170">
         <div class="section-top-border">
-            <h3 class="mb-30" th:text="#{booking}">
+            <h3 class="mb-30" th:text="#{rooms}">
             </h3>
             <div class="progress-table-wrap">
                 <div class="progress-table">
                     <div class="table-head">
                         <div class="serial" th:text="#{room}">
                         </div>
-                        <div class="visit" th:text="#{arrival}">
+                        <div class="visit" th:text="#{adults.capacity}">
                         </div>
-                        <div class="visit" th:text="#{departure}">
+                        <div class="visit" th:text="#{children.capacity}">
                         </div>
-                        <div class="visit" th:text="#{status}">
-                        </div>
-                        <div class="visit" th:text="#{order.date}">
+                        <div class="visit" th:text="#{bed.size}">
                         </div>
                         <div class="visit" th:text="#{price}">
                         </div>
                         <div class="visit" th:text="#{action}">
                         </div>
                     </div>
-                    <th:block th:each="orderDTO : ${orderDTOList}">
+                    <th:block th:each="roomOrderDTO : ${roomOrderDTOList}">
                         <div class="table-row">
                             <div class="serial">
-                                <div th:with="result = ${orderDTO.roomId != null && orderDTO.roomId > 0}">
-                                    <div th:if="${result}">
-                                        <a th:href="@{/room/view/{id} (id=${orderDTO.roomId})}" th:text="#{details}"></a>
-                                    </div>
-                                    <div th:unless="${result}">
-                                        <div th:text="'--'">--</div>
-                                    </div>
-                                </div>
+                                <a th:href="@{/room/view/{id} (id=${roomOrderDTO.roomId})}" th:text="#{details}"></a>
                             </div>
-                            <div class="visit" th:text="${orderDTO.arrivalDate}"></div>
-                            <div class="visit" th:text="${orderDTO.departureDate}"></div>
-                            <div class="visit" th:text="${orderDTO.status}"></div>
-                            <div class="visit" th:text="${orderDTO.orderDate}"></div>
-                            <div class="visit" th:text="${orderDTO.price}"></div>
+                            <div class="visit" th:text="${roomOrderDTO.adultCapacity}"></div>
+                            <div class="visit" th:text="${roomOrderDTO.childCapacity}"></div>
+                            <div class="visit" th:text="${roomOrderDTO.bedSize}"></div>
+                            <div class="visit" th:text="${roomOrderDTO.price}"></div>
                             <div class="visit">
-                                <div th:switch="${orderDTO.status.name()}">
-                                    <div th:case="'PENDING_PAYMENT'">
+                                <div th:with=" resultAction = ${roomStatus.name() == 'FREE' }">
+                                    <div th:if="${resultAction}">
                                         <ul>
                                             <li>
-                                                <a class="genric-btn success small action-button" th:href="@{/#}" th:text="#{pay}"></a>
-                                            </li>
-                                            <li>
-                                                <form th:method="POST" action="#" th:action="@{/order/user/decline(orderId=${orderDTO.orderId})}">
-                                                    <button class="genric-btn danger small action-button" type="submit" th:text="#{decline}"></button>
+                                                <form th:method="POST" action="#" th:action="@{/room/user/order-room}">
+                                                    <input type="hidden" th:value="${roomOrderDTO.roomId}" th:attr="name='roomId'">
+                                                    <button class="genric-btn success small action-button" type="submit" th:text="#{book}"></button>
                                                 </form>
                                             </li>
                                         </ul>
                                     </div>
-                                    <div th:case="'OFFERED'">
-                                        <form th:method="POST" action="#" th:action="@{/order/user/remove(orderId=${orderDTO.orderId })}">
-                                            <button class="genric-btn danger small action-button" type="submit" th:text="#{remove}"></button>
-                                        </form>
-                                    </div>
-                                    <div th:case="*">
-                                        <form th:method="POST" action="#" th:action="@{/order/user/remove(orderId=${orderDTO.orderId })}">
-                                            <button class="genric-btn danger small action-button" type="submit" th:text="#{remove}"></button>
-                                        </form>
+                                    <div th:unless="${resultAction}" th:text="--">
                                     </div>
                                 </div>
                             </div>
@@ -213,10 +194,10 @@
         </div>
     </div>
 </div>
-<!-- Users Order table -->
+<!-- Search Room table- -->
 
 <!-- Footer Start -->
-<div th:insert="fragments/footer :: footer"></div>
+<div th:replace="fragments/footer :: footer"></div>
 <!-- Footer End -->
 </body>
 </html>

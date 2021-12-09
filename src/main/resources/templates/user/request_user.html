@@ -83,7 +83,7 @@
                             <div class="select-this">
                                 <div class="select-itms">
                                     <select th:name="childrenCapacity" id="select2" required>
-                                        <th:block th:each="i: ${#numbers.sequence(1, session.maxChildCapacity)}">
+                                        <th:block th:each="i: ${#numbers.sequence(0, session.maxChildCapacity)}">
                                             <option  th:value="${i}"
                                                     th:utext="${i}"></option>
                                         </th:block>
@@ -169,22 +169,25 @@
                                     <div th:if="${resultAction}">
                                         <ul>
                                             <li>
-                                                <a class="genric-btn success small action-button"
-                                                   th:href="@{/request/user/approve(roomId=${requestDTO.roomID}, requestId=${requestDTO.requestId })}" th:text="#{approve}"></a>
+                                                <form th:method="POST" action="#" th:action="@{/request/user/approve}">
+                                                    <input type="hidden" th:name="requestId" th:value="${requestDTO.requestId}">
+                                                    <button class="genric-btn success small action-button" type="submit" th:text="#{approve}"></button>
+                                                </form>
                                             </li>
                                             <li>
-                                                <a class="genric-btn danger small action-button"
-                                                   th:href="@{/request/user/decline(roomId=${requestDTO.roomID}, requestId=${requestDTO.requestId })}" th:text="#{decline}"></a>
-
+                                                <form th:method="POST" action="#" th:action="@{/request/user/decline}">
+                                                    <input type="hidden" th:name="requestId" th:value="${requestDTO.requestId}">
+                                                    <button class="genric-btn danger small action-button" type="submit" th:text="#{decline}"></button>
+                                                </form>
                                             </li>
                                         </ul>
                                     </div>
                                     <div th:unless="${resultAction}">
-                                        <a class="genric-btn danger small action-button"
-                                           th:href="@{/request/user/remove(requestId=${requestDTO.requestId })}" th:text="#{remove}"></a>
+                                        <form th:method="POST" th:action="@{/request/user/remove(requestId=${requestDTO.requestId})}">
+                                        <button class="genric-btn danger small action-button" type="submit" th:text="#{remove}"></button>
+                                        </form>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </th:block>

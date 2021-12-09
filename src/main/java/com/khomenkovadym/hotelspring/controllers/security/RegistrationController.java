@@ -6,7 +6,6 @@ import com.khomenkovadym.hotelspring.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,10 +20,10 @@ import java.util.Optional;
 @Slf4j
 public class RegistrationController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
@@ -34,7 +33,7 @@ public class RegistrationController {
     }
 
     @GetMapping
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm() {
         return "security/registration";
     }
 
@@ -45,10 +44,8 @@ public class RegistrationController {
         Optional<User> maybeUser = userService.findByEmail(registrationDTO.getEmail());
 
         if (maybeUser.isPresent()) {
-            result.rejectValue("email", null, "User exist. Login!");
-
+            result.rejectValue("email", "empty", "User exist. Login!");
         }
-
         if (result.hasErrors()) {
             return "security/registration";
         }
@@ -56,7 +53,5 @@ public class RegistrationController {
         userService.saveAndFlush(registrationDTO);
         return "redirect:/login";
     }
-
-
 
 }

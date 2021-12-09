@@ -13,4 +13,7 @@ public interface RoomRequestRepository extends JpaRepository<RoomRequest, Intege
    @Query("SELECT new com.khomenkovadym.hotelspring.model.RoomRequestDTO(request.requestId, rOrder.room.roomId, request.user.userId, request.status, request.bedSize, request.adultsCapacity, request.childrenCapacity, request.arrivalDate, request.departureDate) FROM RoomRequest request LEFT OUTER JOIN RoomOrder rOrder on request.requestId = rOrder.roomRequest.requestId WHERE request.user.userId = :id")
    List<RoomRequestDTO> getUserRequestsListWithRoomNumberFromOrderByUserId(Integer id);
 
+   @Query("SELECT new com.khomenkovadym.hotelspring.model.RoomRequestDTO(request.requestId, rOrder.room.roomId, request.user.userId, request.status, request.bedSize, request.adultsCapacity, request.childrenCapacity, request.arrivalDate, request.departureDate) FROM RoomRequest request LEFT OUTER JOIN RoomOrder rOrder on request.requestId = rOrder.roomRequest.requestId")
+   List<RoomRequestDTO> getAllUserRequestsWithRoomNumber();
+
 }

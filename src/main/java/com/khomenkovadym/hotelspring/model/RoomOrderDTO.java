@@ -24,7 +24,6 @@ public class RoomOrderDTO {
     @NotNull
     private Integer roomId;
 
-
     private Integer requestId;
 
     @NotNull

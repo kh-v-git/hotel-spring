@@ -1,0 +1,130 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head"></div>
+<body>
+
+<!-- Header Start -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Header End -->
+
+<!-- Slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="/assets/img/hero/aboutpage_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{room.page.title}">
+                                    </span>
+                        <h2 th:text="#{admin}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!--Room edit Start -->
+<div class="whole-wrap">
+    <div class="container box_1170">
+        <div class="section-top-border">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <h3 class="mb-30" th:text="#{room.new}"></h3>
+                    <form method="POST" th:action="@{/room/admin/room-add (action = 'create')}" th:object="${roomDTO}">
+                        <!--Room number start-->
+                        <div class="mt-10">
+                            <label for="room-number" th:text="#{room.number}"></label>
+                            <input type="number" th:field="*{number}" id="room-number"
+                                   placeholder="Room Number"
+                                   pattern="^([0-9]+)$"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Room Number'"
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must be digit' : '');"
+                                   class="single-input"
+                                   required>
+                        </div>
+                        <!--Room number end-->
+
+                        <!--Adult capacity start-->
+                        <div class="mt-10">
+                            <label for="room-adult-capacity" th:text="#{adults.capacity}"></label>
+                            <input type="number" th:field="*{adultCapacity}" id="room-adult-capacity"
+                                   placeholder="Adult Capacity"
+                                   pattern="^([0-9]+)$"
+                                   onfocus="this.placeholder = ''"
+                                   onblur="this.placeholder = 'Adult Capacity'"
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must be digit' : '');"
+                                   class="single-input"
+                                   required>
+                        </div>
+                        <!--Adult capacity end-->
+
+                        <!--Children capacity start-->
+                        <div class="mt-10">
+                            <label for="room-children-capacity" th:text="#{children.capacity}"></label>
+                            <input type="number" th:field="*{childCapacity}" id="room-children-capacity"
+                                   placeholder="Children Capacity"
+                                   pattern="^([0-9]+)$"
+                                   onfocus="this.placeholder = ''"
+                                   onblur="this.placeholder = 'Children Capacity'"
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must be digit' : '');"
+                                   class="single-input"
+                                   required>
+                        </div>
+                        <!--Children capacity end-->
+
+                        <!--Price start-->
+                        <div class="mt-10">
+                            <label for="room-price" th:text="#{room.price}"></label>
+                            <input type="number" min="0.00" step="0.01" th:field="*{price}" id="room-price" placeholder="10.29"
+                                   pattern="^([0-9]{1,}\.?[0-9]{2})$"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = '10.29'"
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must be valid price' : '');"
+                                   class="single-input"
+                                   required>
+                        </div>
+                        <!--Price end-->
+
+                        <!-- Bed Size start-->
+                        <div class="input-group-icon mt-10">
+                            <div class="form-select">
+                                <label for="room-bed-size" th:text="#{bed.size}"></label>
+                                <select th:field="*{bedSize}" id="room-bed-size" required>
+                                    <th:block th:each="roomBedSize : ${session.roomBedSizeList}">
+                                        <option  th:value="${roomBedSize}" th:text="${roomBedSize}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Bed Size end-->
+
+
+                        <!--About start-->
+                        <div class="mt-10">
+                            <label for="room-about" th:text="#{about}"></label>
+                            <input type="text" th:field="*{about}" id="room-about" placeholder="About"
+                                   pattern="^(\p{L}+[\s]*)+$"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'About'"
+                                   class="single-input"
+                                   required>
+                        </div>
+                        <!--About end-->
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{create}"></button>
+                        <a class="btn btn-lg btn-primary btn-block"
+                           th:href="@{/room/admin/rooms}"
+                           th:text="#{cancel}"></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--User edit End -->
+
+<!-- Footer Start -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer End -->
+</body>
+</html>

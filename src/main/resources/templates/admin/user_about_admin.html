@@ -1,0 +1,177 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head"></div>
+<body>
+
+<!-- Header Start -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Header End -->
+
+<!-- slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="/assets/img/hero/aboutpage_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{user.about}">
+                                    </span>
+                        <h2 th:text="#{admin}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!--User edit Start -->
+<div class="whole-wrap">
+    <div class="container box_1170">
+        <div class="section-top-border">
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <h3 class="mb-30" th:text="#{user} + ' ' + ${user.firstName} + ' ' + #{page}"></h3>
+
+                    <form action="#" th:action="@{/user/admin/user-update}" th:object="${user}" method="post">
+                        <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
+                           th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation error</p>
+                        <!--First Name start-->
+                        <div class="mt-10" th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
+                            <label th:text="#{user.first.name}" for="user-first">User Last Name</label>
+                            <input type="text" th:field="*{firstName}" placeholder="First Name" id="user-first"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name'"
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have max 32 letters' : '');"
+                                   required
+                                   class="single-input">
+                            <!--                        pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"-->
+                            <p class="error-message"
+                               th:each="error: ${#fields.errors('firstName')}"
+                               th:text="${error}">Validation error</p>
+                        </div>
+                        <!--First Name end-->
+
+                        <!--Last Name start-->
+                        <div class="mt-10" th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
+                            <label th:text="#{user.last.name}" for="user-last">User Last Name</label>
+                            <input type="text" th:field="*{lastName}" placeholder="Last Name" id="user-last"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name'"
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have max 32 letters' : '');"
+                                   required
+                                   class="single-input">
+                            <!--                               pattern="^[A-Za-z\u0400\u04ff]{1,32}$"-->
+                            <p class="error-message"
+                               th:each="error : ${#fields.errors('lastName')}"
+                               th:text="${error}">Validation error</p>
+                        </div>
+                        <!--Last Name end-->
+
+                        <!--Phone start-->
+                        <div class="mt-10" th:classappend="${#fields.hasErrors('phone')}? 'has-error':''">
+                            <label th:text="#{user.phone}" for="user-phone">User Phone</label>
+                            <input type="text" th:field="*{phone}" placeholder="380959956781" id="user-phone"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = '380959956781'"
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have 12 digits' : '');"
+                                   required
+                                   class="single-input">
+                            <!--                               pattern="^[0-9]{12}$"-->
+                            <p class="error-message"
+                               th:each="error : ${#fields.errors('phone')}"
+                               th:text="${error}">
+                                Validation error
+                            </p>
+                        </div>
+                        <!--Phone end-->
+
+                        <!--Email start-->
+                        <div class="mt-10" th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
+                            <label th:text="#{user.email}" for="email">User Email</label>
+                            <input type="text" th:field="*{email}" placeholder="Email" id="email"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required
+                                   onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must be valid email' : '');"
+                                   class="single-input">
+                            <!--                               pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"-->
+                            <p class="error-message"
+                               th:each="error : ${#fields.errors('email')}"
+                               th:text="${error}">
+                                Validation error
+                            </p>
+                        </div>
+                        <!--Email end-->
+
+
+                        <!--User role start-->
+                        <div class="input-group-icon mt-10">
+                            <div th:class="form-select">
+                                <label th:text="#{user.role}" for="user-role">User Role</label>
+                                <select th:field="*{role}" id="user-role" required>
+                                    <th:block th:each="roleList : ${session.userRoleList}">
+                                        <div th:with="result = ${roleList == user.role}">
+                                            <div th:if="${result}">
+                                                <option th:value="${roleList}" th:text="${roleList}" selected></option>
+                                            </div>
+                                            <div th:unless="${result}">
+                                                <option th:value="${roleList}" th:text="${roleList}"></option>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <!--User role end-->
+
+                        <!--User status start-->
+                        <div class="input-group-icon mt-10">
+                            <div th:class="form-select">
+                            <label th:text="#{user.status}" for="user-status">User Status</label>
+                            <select th:field="*{status}" id="user-status" required>
+                                <th:block th:each="statusList : ${session.userStatusList}">
+                                    <div th:with="result = ${statusList == user.status}">
+                                        <div th:if="${result}">
+                                            <option th:value="${statusList}" th:text="${statusList}" selected></option>
+                                        </div>
+                                        <div th:unless="${result}">
+                                            <option th:value="${statusList}" th:text="${statusList}"></option>
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </select>
+                            </div>
+                        </div>
+                        <!--User status end-->
+
+                        <!--About start-->
+                        <div class="mt-10" th:classappend="${#fields.hasErrors('about')}? 'has-error':''">
+                            <label th:text="#{about}" for="about"></label>
+                            <input type="text" th:field="*{about}" placeholder="About" id="about"
+                                   onfocus="this.placeholder = ''" onblur="this.placeholder = 'About yourself'"
+                                   class="single-input">
+                            <!--                               pattern="^[A-Za-z\u0400-\u04ff]{1,32}$"-->
+                            <p class="error-message"
+                               th:each="error : ${#fields.errors('about')}"
+                               th:text="${error}">Validation error</p>
+                        </div>
+                        <!--About end-->
+
+                        <input type="hidden" th:value="${user.userId}" name="userId">
+                        <button class="btn btn-lg btn-primary btn-block"
+                                type="submit" name="action" value="update"
+                                th:text="#{update}">
+                        </button>
+                        <a class="btn btn-lg btn-primary btn-block"
+                           th:href="@{/user/admin/users}" th:text="#{cancel}">
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--User edit End -->
+
+<!-- Footer Start -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer End -->
+</body>
+</html>

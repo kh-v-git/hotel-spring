@@ -1,0 +1,103 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<div th:replace="fragments/head :: head"></div>
+<body>
+
+<!-- Header Start -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Header End -->
+
+<!-- slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="/assets/img/hero/aboutpage_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{user}">
+                                    </span>
+                        <h2 th:text="#{admin}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!--Users table-->
+<div class="whole-wrap">
+    <div class="container box_1170">
+        <div class="col-lg-4">
+            <div class="blog_right_sidebar">
+                <aside class="single_sidebar_widget search_widget">
+                    <form action="#" th:action="@{/user/admin/search-user}" method="GET">
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <input type="text" name="searchEmail" class="form-control" placeholder='Search Email'
+                                       onfocus="this.placeholder = ''"
+                                       onblur="this.placeholder = 'Search Email'">
+                                <div class="input-group-append">
+                                    <button class="btn" type="submit"><i class="ti-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                th:href="@{/user/admin/users}" th:text="'Clear'"></a>
+                    </form>
+                </aside>
+            </div>
+        </div>
+        <div class="section-top-border">
+            <h3 class="mb-30" th:text="#{users.page}">
+            </h3>
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="serial" th:text="'ID'"></div>
+                        <div class="visit" th:text="#{user.email}"></div>
+                        <div class="visit" th:text="#{user.first.name}"></div>
+                        <div class="visit" th:text="#{user.last.name}"></div>
+                        <div class="visit" th:text="#{user.role}"></div>
+                        <div class="visit" th:text="#{status}"></div>
+                        <div class="visit" th:text="#{action}"></div>
+                    </div>
+                    <th:block th:each="userDTO : ${userDTOList}">
+                        <div class="table-row">
+                            <div class="serial" th:text="${userDTO.userId}"></div>
+                            <div class="visit" th:text="${userDTO.email}"></div>
+                            <div class="visit" th:text="${userDTO.firstName}"></div>
+                            <div class="visit" th:text="${userDTO.lastName}"></div>
+                            <div class="visit" th:text="${userDTO.role}"></div>
+                            <div class="visit" th:text="${userDTO.status}"></div>
+                            <div class="visit">
+                                <ul>
+                                    <li>
+                                        <form th:method="GET" action="#" th:action="@{/user/admin/user-about}">
+                                            <input type="hidden" th:value="${userDTO.userId}" th:attr="name='userId'">
+                                            <button class="genric-btn success small action-button" type="submit" th:text="#{edit}"></button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form th:method="POST" action="#" th:action="@{/user/admin/user-remove}">
+                                            <input type="hidden" th:value="${userDTO.userId}" th:attr="name='userId'">
+                                            <button class="genric-btn danger small action-button" type="submit" th:text="#{delete}"></button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Users table -->
+
+<!-- Footer Start -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer End -->
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.khomenkovadym.hotelspring.config;
 
 import com.khomenkovadym.hotelspring.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String MANAGER = "MANAGER";
     private static final String ADMIN = "ADMIN";
 
-    private UserService userService;
+    private final UserService userService;
 
     public SecurityConfig(UserService userService) {
         this.userService = userService;
@@ -42,14 +43,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/room/user/**").hasRole(USER)
                 .antMatchers("/request/user/**").hasRole(USER)
                 .antMatchers("/order/user/**").hasRole(USER)
+                .antMatchers("/user/user/**").hasRole(USER)
 
                 .antMatchers("/room/manager/**").hasRole(MANAGER)
                 .antMatchers("/request/manager/**").hasRole(MANAGER)
                 .antMatchers("/order/manager/**").hasRole(MANAGER)
+                .antMatchers("/user/manager/**").hasRole(MANAGER)
 
                 .antMatchers("/room/admin/**").hasRole(ADMIN)
                 .antMatchers("/request/admin/**").hasRole(ADMIN)
                 .antMatchers("/order/admin/**").hasRole(ADMIN)
+                .antMatchers("/user/admin/**").hasRole(ADMIN)
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -79,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
     public CustomAuthenticationProvider authProvider() {
         return new CustomAuthenticationProvider();

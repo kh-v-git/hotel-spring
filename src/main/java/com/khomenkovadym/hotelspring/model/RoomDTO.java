@@ -5,8 +5,12 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.NumberFormat;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 @Data
@@ -15,33 +19,31 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class RoomDTO {
 
-    @NumberFormat()
+    @Digits(integer = 10, fraction = 0)
     private Integer roomId;
 
-    @NotEmpty(message = "Room number can not be empty")
-    @NumberFormat()
+    @NotNull(message = "Room number can not be empty")
+    @Digits(integer = 10, fraction = 0)
     private Integer number;
 
-    @NotEmpty(message = "Capacity can not be empty")
+    @NotNull(message = "Capacity can not be empty")
     @Max(value = 10, message = "Large number")
-    @NumberFormat()
+    @Digits(integer = 2, fraction = 0)
     private Integer adultCapacity;
 
-    @NotEmpty(message = "Capacity can not be empty")
+    @NotNull(message = "Capacity can not be empty")
     @Max(value = 10, message = "Large number")
-    @NumberFormat()
+    @Digits(integer = 2, fraction = 0)
     private Integer childCapacity;
 
-    @NotEmpty(message = "Price can not be empty")
+    @NotNull(message = "Price can not be empty")
     @Max(value = 10000, message = "Large number")
-    @NumberFormat()
+    @Digits(integer = 5, fraction = 2)
     private Double price;
 
-    @NotEmpty(message = "Price can not be empty")
-    @Length(max = 10)
+    @Enumerated(EnumType.STRING)
     private RoomBedSize bedSize;
 
-    @NotEmpty(message = "Price can not be empty")
     @Length(max = 50)
     private String about;
 

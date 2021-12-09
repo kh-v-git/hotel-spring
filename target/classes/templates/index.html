@@ -1,15 +1,12 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <div th:replace="fragments/head :: head"></div>
 <body>
-<!--
-<div class="genric-btn danger radius" th:if="${errorPage!= null}" th:text="${errorPage}"></div>
-<div class="genric-btn danger radius" th:if="${errorCommand!= null}" th:text="${errorCommand}"></div>
--->
-<!--Add other messages -->
 
 <!-- Header Start -->
-<div th:replace="fragments/header_guest :: header"></div>
+<div th:replace="fragments/header :: header"></div>
 <!-- Header End -->
 
 <!-- Slider Area Start-->
@@ -167,13 +164,13 @@
                     <!-- Single Room -->
                     <div class="single-room mb-50">
                         <div class="room-img">
-                            <a th:href="@{/rooms/{bed} (bed = ${roomView.bedSize})}">
+                            <a th:href="@{/room/category/{bed} (bed = ${roomView.bedSize})}">
                                 <img th:src="@{'/assets/img/rooms/' + ${roomView.bedSize} + '.jpg'}" src="" alt="">
                             </a>
                         </div>
                         <div class="room-caption">
                             <h3>
-                                <a th:href="@{/rooms/{bed} (bed = ${roomView.bedSize})}"
+                                <a th:href="@{/room/category/{bed} (bed = ${roomView.bedSize})}"
                                    th:text="${roomView.bedSize}"></a>
                             </h3>
                             <h5 th:text="#{adults.capacity} + ' : ' + (${roomView.minAdults}) +' '+ #{to} +' ' + (${roomView.maxAdults})">
@@ -199,16 +196,6 @@
     </div>
 </section>
 <!-- Room End -->
-
-
-<form method="post" th:action="@{/rooms/12345/booking}" id="myform">
-
-    <label>
-        <input type="text" name="hello" value="Vadym">
-    </label>
-    <input type="hidden" name="time" value="too late">
-    <input type="submit">
-</form>
 
 <!-- Gallery img Start-->
 <div class="gallery-area fix">

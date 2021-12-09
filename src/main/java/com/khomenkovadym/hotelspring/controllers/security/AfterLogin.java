@@ -15,7 +15,7 @@ public class AfterLogin {
     @GetMapping
     public String afterLogin(HttpServletRequest request) {
         if (request.isUserInRole("ADMIN")) {
-            return "redirect:/request/admin";
+            return "redirect:/user/admin/users";
         }
         if (request.isUserInRole("USER")) {
             return "redirect:/request/user";

@@ -10,7 +10,6 @@ public enum UserStatusEnum {
     public static List<String> getUserStatusList () {
         return  Arrays.stream(UserStatusEnum.values())
                 .map(UserStatusEnum::name)
-                .map(String::toLowerCase)
                 .collect(Collectors.toList());
     }
 }

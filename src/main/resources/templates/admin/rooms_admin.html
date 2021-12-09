@@ -1,0 +1,116 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/head :: head"></div>
+<body>
+
+<!-- Header Start -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Header End -->
+
+<!-- Slider Area Start-->
+<div class="slider-area">
+    <div class="single-slider hero-overly slider-height2 d-flex align-items-center"
+         data-background="/assets/img/hero/aboutpage_hero.jpg">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-11 offset-xl-1 offset-lg-1 offset-md-1">
+                    <div class="hero-caption">
+                                    <span th:text="#{room}">
+                                    </span>
+                        <h2 th:text="#{admin}"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- slider Area End-->
+
+<!-- Rooms table-->
+<div class="whole-wrap">
+    <div class="container box_1170">
+
+        <div class="section-top-border">
+            <h3 class="mb-30" th:text="#{rooms.page.title}">
+            </h3>
+            <!--Add new room button start -->
+            <div class="button-group-area">
+                <a th:href="@{/room/admin/room-add}" class="genric-btn info" th:text="'Add room'"></a>
+            </div>
+            <!--Add new room button end -->
+
+            <!--List room start -->
+            <div class="progress-table-wrap">
+                <div class="progress-table">
+                    <div class="table-head">
+                        <div class="serial" th:text="'ID'"></div>
+                        <div class="visit" th:text="#{bed.size}"></div>
+                        <div class="visit" th:text="#{adults.capacity}"></div>
+                        <div class="visit" th:text="#{children.capacity}"></div>
+                        <div class="visit" th:text="#{price}"></div>
+                        <div class="visit" th:text="#{action}"></div>
+                    </div>
+                    <th:block th:each="roomDTO : ${roomDTOList}">
+                        <div class="table-row">
+                            <div class="serial"><a th:href="@{/room/view/{id} (id = ${roomDTO.roomId})}"
+                                                   th:text="'View ' + ${roomDTO.roomId}"></a></div>
+                            <div class="visit" th:text="${roomDTO.bedSize}"></div>
+                            <div class="visit" th:text="${roomDTO.adultCapacity}"></div>
+                            <div class="visit" th:text="${roomDTO.childCapacity}"></div>
+                            <div class="visit" th:text="${roomDTO.price}"></div>
+                            <div class="visit">
+                                <ul>
+                                    <li>
+                                        <form th:method="GET" action="#" th:action="@{/room/admin/room-about}">
+                                            <input type="hidden" th:value="${roomDTO.roomId}" th:attr="name='roomId'">
+                                            <button class="genric-btn success small action-button" type="submit"
+                                                    th:text="#{edit}"></button>
+                                        </form>
+                                    </li>
+                                    <li>
+                                        <form th:method="POST" action="#" th:action="@{/room/admin/room-remove}">
+                                            <input type="hidden" th:value="${roomDTO.roomId}" th:attr="name='roomId'">
+                                            <button class="genric-btn danger small action-button" type="submit"
+                                                    th:text="#{delete}"></button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <!--List room end -->
+
+            <!--Pagination start -->
+            <nav class="blog-pagination justify-content-center d-flex">
+                <ul class="pagination">
+                    <th:block th:each="i : ${#numbers.sequence(1, numOfPages)}">
+                        <div th:with="result = ${pageNo eq i}">
+                            <div th:if="${result}">
+                                <li class="page-item active">
+                                    <a th:href="@{/room/admin/rooms(pageNo = ${i})}"
+                                       class="page-link" th:text="${i}"></a>
+                                </li>
+                            </div>
+                            <div th:unless="${result}">
+                                <li class="page-item">
+                                    <a th:href="@{/room/admin/rooms(pageNo = ${i})}"
+                                       class="page-link" th:text="${i}"></a>
+                                </li>
+                            </div>
+                        </div>
+                    </th:block>
+                </ul>
+            </nav>
+            <!--Pagination end -->
+        </div>
+    </div>
+</div>
+<!-- Rooms table -->
+
+<!-- Footer Start -->
+<div th:replace="fragments/footer :: footer"></div>
+<!-- Footer End -->
+</body>
+</html>
